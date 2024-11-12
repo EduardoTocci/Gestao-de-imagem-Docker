@@ -1,0 +1,50 @@
+name: Build and Test Docker Images
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: usuario
+          POSTGRES_PASSWORD: senha
+          POSTGRES_DB: banco_de_dados
+        ports:
+          - 5432:5432
+
+    steps:
+      # Checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Build da imagem do front-end
+      - name: Build Front-End
+        run: |
+          cd frontend
+          docker build -t my-frontend .
+
+      # Testes do front-end
+      - name: Test Front-End
+        run: |
+          docker run --rm my-frontend npm test
+
+      # Build da imagem do back-end
+      - name: Build Back-End
+        run: |
+          cd backend
+          docker build -t my-backend .
+
+      # Testes do back-end
+      - name: Test Back-End
+        run: |
+          docker run --rm my-backend npm test
