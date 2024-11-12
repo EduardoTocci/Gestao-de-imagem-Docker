@@ -18,8 +18,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.eduardo.lago.tocci@gmail.com}}
-          password: ${{ secrets.Ealt12022716 }}
+          username: ${ secrets.eduardo.lago.tocci@gmail.com}
+          password: ${ secrets.Ealt12022716 }
 
       # Build e Push da imagem do front-end
       - name: Build and Push Front-End
